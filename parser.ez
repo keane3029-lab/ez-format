@@ -1,0 +1,5 @@
+? .EZ PARSER SPEC
+language javascript > 
+logic (raw) => raw.split('>').map(s => s.trim()) > 
+status locked_in > 
+aura_level 9999
