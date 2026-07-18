@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security & roadmap — .ez docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090a; --panel:#0f1211; --green:#39ff6a; --green-dim:#1f8a3d;
+  --amber:#ffb020; --red:#ff5f56; --text:#d7e6da; --muted:#77907f; --line:#1c231e;
+}
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ margin:0; background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; font-size:15px; line-height:1.7; }
+code, pre, .mono{ font-family:'JetBrains Mono', monospace; }
+a{ color:var(--green); }
+.shell{ display:grid; grid-template-columns:250px 1fr; max-width:1200px; margin:0 auto; }
+@media (max-width:860px){ .shell{ grid-template-columns:1fr; } .sidebar{ position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line);} }
+.sidebar{ position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--line); padding:26px 18px; }
+.brand{ display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-weight:800; font-size:14px; color:#f2fff5; margin-bottom:4px; text-decoration:none; }
+.brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); }
+.brand-sub{ font-size:11px; color:var(--muted); margin-bottom:24px; font-family:'JetBrains Mono', monospace; }
+.nav-group{ margin-bottom:18px; }
+.nav-label{ font-size:10.5px; letter-spacing:.12em; color:var(--green-dim); font-weight:700; margin-bottom:8px; font-family:'JetBrains Mono', monospace; }
+.nav-group a{ display:block; font-size:13px; color:var(--muted); text-decoration:none; padding:5px 0 5px 10px; border-left:2px solid transparent; }
+.nav-group a:hover{ color:var(--text); border-left-color:var(--green-dim); }
+.nav-group a.active{ color:var(--green); border-left-color:var(--green); }
+main{ padding:44px 48px 100px; max-width:760px; }
+@media (max-width:640px){ main{ padding:32px 20px 80px; } }
+.eyebrow{ display:inline-block; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--green); border:1px solid var(--green-dim); padding:3px 9px; border-radius:2px; letter-spacing:.1em; margin-bottom:14px; }
+h1{ font-size:36px; color:#f2fff5; margin:0 0 10px; letter-spacing:-0.01em; }
+.lede{ color:var(--muted); font-size:15.5px; margin-bottom:40px; max-width:58ch; }
+section{ margin-bottom:56px; scroll-margin-top:24px; }
+h2{ font-size:22px; color:#f2fff5; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:18px; }
+h3{ font-size:16px; color:var(--text); margin:24px 0 10px; }
+p{ color:#c3d3c9; }
+ul, ol{ color:#c3d3c9; padding-left:22px; }
+li{ margin-bottom:6px; }
+code{ background:rgba(57,255,106,0.08); color:var(--amber); padding:1px 6px; border-radius:3px; font-size:13px; }
+.codeblock{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin:14px 0 20px; }
+.codeblock .bar{ display:flex; gap:6px; padding:9px 12px; border-bottom:1px solid var(--line); background:#0c0e0d; }
+.codeblock .bar span{ width:9px; height:9px; border-radius:50%; }
+.codeblock pre{ margin:0; padding:14px 16px; font-size:13px; overflow-x:auto; color:#cfe8d6; }
+.codeblock .lang{ margin-left:auto; font-size:11px; color:var(--muted); align-self:center; }
+table{ width:100%; border-collapse:collapse; margin:14px 0 20px; font-size:13.5px; }
+th{ text-align:left; color:var(--green); font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.06em; padding:8px 10px; border-bottom:1px solid var(--line); }
+td{ padding:9px 10px; border-bottom:1px solid var(--line); color:#c3d3c9; vertical-align:top; }
+td code{ white-space:nowrap; }
+.callout{ border-left:3px solid var(--amber); background:rgba(255,176,32,0.06); padding:12px 16px; border-radius:0 6px 6px 0; font-size:13.5px; color:#e8dcc2; margin:16px 0; }
+.callout.safe{ border-left-color:var(--green); background:rgba(57,255,106,0.06); color:#cfe8d6; }
+.callout strong{ color:#fff; }
+.step{ display:flex; gap:12px; margin-bottom:14px; }
+.step .n{ flex-shrink:0; width:22px; height:22px; border-radius:50%; background:rgba(57,255,106,0.12); color:var(--green); font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.step div:last-child{ padding-top:1px; }
+.foot{ border-top:1px solid var(--line); padding-top:20px; font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono', monospace; }
+.pager{ display:flex; justify-content:space-between; margin:50px 0 30px; font-family:'JetBrains Mono', monospace; font-size:13px; }
+.pager a{ text-decoration:none; color:var(--muted); border:1px solid var(--line); padding:10px 16px; border-radius:6px; }
+.pager a:hover{ color:var(--green); border-color:var(--green-dim); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar">
+    <a class="brand" href="index.html"><span class="dot"></span>KEANE3029-LAB</a>
+    <div class="brand-sub">.ez docs — v1</div>
+    <div class="nav-group">
+      <div class="nav-label">DOCS</div>
+      <a href="index.html" class="">Overview & quick start</a><a href="spec.html" class="">Format spec</a><a href="tooling.html" class="">Runner & parser</a><a href="setup.html" class="">Double-click setup</a><a href="security.html" class="active">Security & roadmap</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">LINKS</div>
+      <a href="https://github.com/keane3029-lab/ez-format">Repo on GitHub</a>
+      <a href="https://keane3029-lab.github.io/">Lab homepage</a>
+    </div>
+    </nav>
+  <main>
+
+    <span class="eyebrow">GOOD TO KNOW</span>
+    <h1>Security model &amp; roadmap</h1>
+    <p class="lede">What the format promises not to do, and what's planned next.</p>
+
+    <section id="security">
+      <h2>Security model</h2>
+      <div class="callout safe">
+        <strong>.ez never runs commands on your computer.</strong> An early draft had a <code>$exec</code> token for running system commands on open — that's been removed for good. A file format that can execute commands just by being opened is exactly the mechanism malicious files use. <code>.ez</code> only ever describes data; it never acts on your system beyond the one narrow, documented case (opening a browser tab when it sees <code>@anim</code> — see <a href="tooling.html">the runner</a>).
+      </div>
+      <p>If you're extending the format or the runner, keep this boundary: new tokens should describe data or trigger clearly-scoped, visible actions (like opening a specific URL) — never open-ended system command execution.</p>
+    </section>
+
+    <section id="roadmap">
+      <h2>Roadmap</h2>
+      <p>Ideas for future versions, not yet built:</p>
+      <ul>
+        <li>Comment syntax, so notes can live in a <code>.ez</code> file without being treated as data</li>
+        <li>More tokens beyond <code>@anim</code></li>
+        <li>A stricter validation mode that reports malformed lines instead of silently skipping them</li>
+        <li>A packaged installer for the double-click setup, instead of manual terminal commands</li>
+      </ul>
+    </section>
+    <div class="pager"><a href="setup.html">&larr; Double-click setup</a><span></span></div>
+  </main>
+</div>
+</body>
+</html>

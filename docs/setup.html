@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Double-click setup — .ez docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090a; --panel:#0f1211; --green:#39ff6a; --green-dim:#1f8a3d;
+  --amber:#ffb020; --red:#ff5f56; --text:#d7e6da; --muted:#77907f; --line:#1c231e;
+}
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ margin:0; background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; font-size:15px; line-height:1.7; }
+code, pre, .mono{ font-family:'JetBrains Mono', monospace; }
+a{ color:var(--green); }
+.shell{ display:grid; grid-template-columns:250px 1fr; max-width:1200px; margin:0 auto; }
+@media (max-width:860px){ .shell{ grid-template-columns:1fr; } .sidebar{ position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line);} }
+.sidebar{ position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--line); padding:26px 18px; }
+.brand{ display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-weight:800; font-size:14px; color:#f2fff5; margin-bottom:4px; text-decoration:none; }
+.brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); }
+.brand-sub{ font-size:11px; color:var(--muted); margin-bottom:24px; font-family:'JetBrains Mono', monospace; }
+.nav-group{ margin-bottom:18px; }
+.nav-label{ font-size:10.5px; letter-spacing:.12em; color:var(--green-dim); font-weight:700; margin-bottom:8px; font-family:'JetBrains Mono', monospace; }
+.nav-group a{ display:block; font-size:13px; color:var(--muted); text-decoration:none; padding:5px 0 5px 10px; border-left:2px solid transparent; }
+.nav-group a:hover{ color:var(--text); border-left-color:var(--green-dim); }
+.nav-group a.active{ color:var(--green); border-left-color:var(--green); }
+main{ padding:44px 48px 100px; max-width:760px; }
+@media (max-width:640px){ main{ padding:32px 20px 80px; } }
+.eyebrow{ display:inline-block; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--green); border:1px solid var(--green-dim); padding:3px 9px; border-radius:2px; letter-spacing:.1em; margin-bottom:14px; }
+h1{ font-size:36px; color:#f2fff5; margin:0 0 10px; letter-spacing:-0.01em; }
+.lede{ color:var(--muted); font-size:15.5px; margin-bottom:40px; max-width:58ch; }
+section{ margin-bottom:56px; scroll-margin-top:24px; }
+h2{ font-size:22px; color:#f2fff5; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:18px; }
+h3{ font-size:16px; color:var(--text); margin:24px 0 10px; }
+p{ color:#c3d3c9; }
+ul, ol{ color:#c3d3c9; padding-left:22px; }
+li{ margin-bottom:6px; }
+code{ background:rgba(57,255,106,0.08); color:var(--amber); padding:1px 6px; border-radius:3px; font-size:13px; }
+.codeblock{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin:14px 0 20px; }
+.codeblock .bar{ display:flex; gap:6px; padding:9px 12px; border-bottom:1px solid var(--line); background:#0c0e0d; }
+.codeblock .bar span{ width:9px; height:9px; border-radius:50%; }
+.codeblock pre{ margin:0; padding:14px 16px; font-size:13px; overflow-x:auto; color:#cfe8d6; }
+.codeblock .lang{ margin-left:auto; font-size:11px; color:var(--muted); align-self:center; }
+table{ width:100%; border-collapse:collapse; margin:14px 0 20px; font-size:13.5px; }
+th{ text-align:left; color:var(--green); font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.06em; padding:8px 10px; border-bottom:1px solid var(--line); }
+td{ padding:9px 10px; border-bottom:1px solid var(--line); color:#c3d3c9; vertical-align:top; }
+td code{ white-space:nowrap; }
+.callout{ border-left:3px solid var(--amber); background:rgba(255,176,32,0.06); padding:12px 16px; border-radius:0 6px 6px 0; font-size:13.5px; color:#e8dcc2; margin:16px 0; }
+.callout.safe{ border-left-color:var(--green); background:rgba(57,255,106,0.06); color:#cfe8d6; }
+.callout strong{ color:#fff; }
+.step{ display:flex; gap:12px; margin-bottom:14px; }
+.step .n{ flex-shrink:0; width:22px; height:22px; border-radius:50%; background:rgba(57,255,106,0.12); color:var(--green); font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.step div:last-child{ padding-top:1px; }
+.foot{ border-top:1px solid var(--line); padding-top:20px; font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono', monospace; }
+.pager{ display:flex; justify-content:space-between; margin:50px 0 30px; font-family:'JetBrains Mono', monospace; font-size:13px; }
+.pager a{ text-decoration:none; color:var(--muted); border:1px solid var(--line); padding:10px 16px; border-radius:6px; }
+.pager a:hover{ color:var(--green); border-color:var(--green-dim); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar">
+    <a class="brand" href="index.html"><span class="dot"></span>KEANE3029-LAB</a>
+    <div class="brand-sub">.ez docs — v1</div>
+    <div class="nav-group">
+      <div class="nav-label">DOCS</div>
+      <a href="index.html" class="">Overview & quick start</a><a href="spec.html" class="">Format spec</a><a href="tooling.html" class="">Runner & parser</a><a href="setup.html" class="active">Double-click setup</a><a href="security.html" class="">Security & roadmap</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">LINKS</div>
+      <a href="https://github.com/keane3029-lab/ez-format">Repo on GitHub</a>
+      <a href="https://keane3029-lab.github.io/">Lab homepage</a>
+    </div>
+    </nav>
+  <main>
+
+    <span class="eyebrow">SETUP</span>
+    <h1>Double-click setup</h1>
+    <p class="lede">One-time setup per machine so <code>.ez</code> files open like any normal file.</p>
+
+    <section id="windows">
+      <h2>Windows</h2>
+      <div class="step"><div class="n">1</div><div>Open <strong>Command Prompt</strong> (not PowerShell) as Administrator.</div></div>
+      <div class="step"><div class="n">2</div><div><code>cd</code> into your <code>ez-format</code> folder.</div></div>
+      <div class="step"><div class="n">3</div><div>Register the file type:</div></div>
+      <div class="codeblock">
+        <div class="bar"><span style="background:var(--red)"></span><span style="background:var(--amber)"></span><span style="background:var(--green)"></span><span class="lang">cmd</span></div>
+        <pre>assoc .ez=EZFile
+ftype EZFile=python "%CD%\ez_run.py" "%1"</pre>
+      </div>
+      <div class="callout">
+        <strong>Explorer may still show an "Open with" picker</strong> the first time — this is a Windows quirk, not a bug in the setup. If it happens, save a tiny <code>open_ez.bat</code> next to <code>ez_run.py</code>:
+        <div class="codeblock" style="margin-top:10px;">
+          <div class="bar"><span style="background:var(--red)"></span><span style="background:var(--amber)"></span><span style="background:var(--green)"></span><span class="lang">open_ez.bat</span></div>
+          <pre>@echo off
+python "%~dp0ez_run.py" %1</pre>
+        </div>
+        Then in the picker, choose <strong>"Look for another app on this PC"</strong>, select <code>open_ez.bat</code>, and check <strong>"Always use this app"</strong>.
+      </div>
+    </section>
+
+    <section id="macos">
+      <h2>macOS</h2>
+      <div class="step"><div class="n">1</div><div>Make the runner executable: <code>chmod +x ez_run.py</code></div></div>
+      <div class="step"><div class="n">2</div><div>macOS needs a small wrapper for Finder to open directly — create a <code>.command</code> file:</div></div>
+      <div class="codeblock">
+        <div class="bar"><span style="background:var(--red)"></span><span style="background:var(--amber)"></span><span style="background:var(--green)"></span><span class="lang">bash</span></div>
+        <pre>echo 'python3 "'"$(pwd)"'/ez_run.py" "$1"' &gt; run_ez.command
+chmod +x run_ez.command</pre>
+      </div>
+      <div class="step"><div class="n">3</div><div>In Finder, right-click a <code>.ez</code> file &rarr; <strong>Get Info</strong> &rarr; <strong>Open with</strong> &rarr; choose <code>run_ez.command</code>.</div></div>
+    </section>
+    <div class="pager"><a href="tooling.html">&larr; Runner & parser</a><a href="security.html">Security & roadmap &rarr;</a></div>
+  </main>
+</div>
+</body>
+</html>
